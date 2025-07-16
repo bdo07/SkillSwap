@@ -8,7 +8,12 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $user = auth()->user();
+    $messagesCount = $user->messages()->count();
+    $matchesCount = $user->matchesInitiated()->count() + $user->matchesReceived()->count();
+    $skillsCount = $user->skills()->count();
+    $ratingsCount = $user->ratings()->count();
+    return view('dashboard', compact('messagesCount', 'matchesCount', 'skillsCount', 'ratingsCount', 'user'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
