@@ -15,6 +15,29 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('profiles.index')" :active="request()->routeIs('profiles.*')">
+                        {{ __('Profils') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('skills.index')" :active="request()->routeIs('skills.*')">
+                        {{ __('Compétences') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('messages.history')" :active="request()->routeIs('messages.history')">
+                        {{ __('Messagerie') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('matching.index')" :active="request()->routeIs('matching.index')">
+                        {{ __('Matching') }}
+                    </x-nav-link>
+                    @if(Auth::user() && Auth::user()->is_admin)
+                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                            {{ __('Admin') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
+                            {{ __('Utilisateurs') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.reports')" :active="request()->routeIs('admin.reports')">
+                            {{ __('Signalements') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
