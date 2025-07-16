@@ -19,9 +19,9 @@ class UserMatchPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, UserMatch $userMatch): bool
+    public function view($user, $userMatch)
     {
-        return false;
+        return $user->id === $userMatch->user1_id || $user->id === $userMatch->user2_id;
     }
 
     /**
