@@ -75,4 +75,21 @@ class MessageController extends Controller
     {
         //
     }
+
+    /**
+     * Affiche l'historique des conversations de l'utilisateur connecté.
+     */
+    public function history()
+    {
+        $user = auth()->user();
+        // On récupère tous les matches où l'utilisateur est impliqué
+        $matches = \App\Models\UserMatch::with(['user1', 'user2', 'messages' => function($q) {
+            $q->latest();
+        }])
+        ->where('user1_id', $user->id)
+        ->orWhere('user2_id', $user->id)
+        ->orderByDesc('updated_at')
+        ->get();
+        return view('messages.history', compact('matches'));
+    }
 }
