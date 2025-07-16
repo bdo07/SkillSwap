@@ -19,5 +19,7 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('skills', App\Http\Controllers\SkillController::class);
 Route::resource('profiles', App\Http\Controllers\UserProfileController::class)->middleware('auth');
+Route::get('matching', [App\Http\Controllers\UserMatchController::class, 'index'])->middleware('auth')->name('matching.index');
+Route::post('matching/{user}', [App\Http\Controllers\UserMatchController::class, 'store'])->middleware('auth')->name('matching.store');
 
 require __DIR__.'/auth.php';
