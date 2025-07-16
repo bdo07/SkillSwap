@@ -23,5 +23,7 @@ Route::get('matching', [App\Http\Controllers\UserMatchController::class, 'index'
 Route::post('matching/{user}', [App\Http\Controllers\UserMatchController::class, 'store'])->middleware('auth')->name('matching.store');
 Route::get('messages/{match}', [App\Http\Controllers\MessageController::class, 'show'])->middleware('auth')->name('messages.show');
 Route::post('messages/{match}', [App\Http\Controllers\MessageController::class, 'store'])->middleware('auth')->name('messages.store');
+Route::get('ratings/{match}', [App\Http\Controllers\RatingController::class, 'create'])->middleware('auth')->name('ratings.create');
+Route::post('ratings/{match}', [App\Http\Controllers\RatingController::class, 'store'])->middleware('auth')->name('ratings.store');
 
 require __DIR__.'/auth.php';

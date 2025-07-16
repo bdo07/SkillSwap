@@ -18,17 +18,30 @@ class RatingController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($matchId)
     {
-        //
+        $match = \App\Models\UserMatch::findOrFail($matchId);
+        $this->authorize('view', $match);
+        return view('ratings.create', compact('match'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $matchId)
     {
-        //
+        $match = \App\Models\UserMatch::findOrFail($matchId);
+        $this->authorize('view', $match);
+        $validated = $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:1000',
+        ]);
+        $match->ratings()->create([
+            'user_id' => auth()->id(),
+            'rating' => $validated['rating'],
+            'comment' => $validated['comment'],
+        ]);
+        return redirect()->route('profiles.show', auth()->user()->profile)->with('success', 'Évaluation enregistrée !');
     }
 
     /**
