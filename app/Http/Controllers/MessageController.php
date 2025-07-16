@@ -26,17 +26,30 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $matchId)
     {
-        //
+        $match = \App\Models\UserMatch::findOrFail($matchId);
+        $this->authorize('view', $match);
+        $validated = $request->validate([
+            'content' => 'required|string|max:1000',
+        ]);
+        $message = $match->messages()->create([
+            'user_id' => auth()->id(),
+            'content' => $validated['content'],
+        ]);
+        broadcast(new \App\Events\MessageSent($message))->toOthers();
+        return back();
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Message $message)
+    public function show($matchId)
     {
-        //
+        $match = \App\Models\UserMatch::findOrFail($matchId);
+        $this->authorize('view', $match); // à implémenter dans la policy
+        $messages = $match->messages()->with('user')->orderBy('created_at')->get();
+        return view('messages.show', compact('match', 'messages'));
     }
 
     /**

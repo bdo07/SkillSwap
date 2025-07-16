@@ -21,5 +21,7 @@ Route::resource('skills', App\Http\Controllers\SkillController::class);
 Route::resource('profiles', App\Http\Controllers\UserProfileController::class)->middleware('auth');
 Route::get('matching', [App\Http\Controllers\UserMatchController::class, 'index'])->middleware('auth')->name('matching.index');
 Route::post('matching/{user}', [App\Http\Controllers\UserMatchController::class, 'store'])->middleware('auth')->name('matching.store');
+Route::get('messages/{match}', [App\Http\Controllers\MessageController::class, 'show'])->middleware('auth')->name('messages.show');
+Route::post('messages/{match}', [App\Http\Controllers\MessageController::class, 'store'])->middleware('auth')->name('messages.store');
 
 require __DIR__.'/auth.php';
